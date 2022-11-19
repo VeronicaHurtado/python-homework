@@ -2,7 +2,7 @@
 This repository contains two scrips:
 
 ## I. PyBank
-Python script that analyses the records in `budget_data.csv` to calculate:
+Python script that analyses the records in [budget_data.csv](PyBank/Resources/budget_data.csv) to calculate:
 - The total number of months included in the dataset
 - The net total amount of Profit/Losses over the entire period
 - The average of the changes in Profit/Losses over the entire period
@@ -22,7 +22,8 @@ Additionally, a text file is generated with the results. The output of the scrip
 
 ## II. PyRamen
 Python script to support the analysis of a business' financial performance by cross-referencing the sales data 
-`sales_data.csv` with the internal menu data `menu_data.csv` to figure out revenues and costs for the year.
+[sales_data.csv](PyRamen/Resources/sales_data.csv) with the internal menu data [menu_data.csv](PyRamen/Resources/menu_data.csv) 
+to figure out revenues and costs for the year.
 
 In addition, the script assesses sales by product and generates a report with each product type and the following metrics:
 - Count
