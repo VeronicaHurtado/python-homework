@@ -1,6 +1,7 @@
 # Import the pathlib and csv libraries
 from pathlib import Path
 import csv
+import functions
 
 # Set the file path
 csv_path = Path('./Resources/budget_data.csv')
@@ -56,26 +57,21 @@ for date, pnl in budget_data.items():
 # Calculate the Average Change, round to the nearest 2 decimal places
 avg_change = round(sum(historical_change) / len(historical_change), 2)
 
-# Print the metrics
-print('Financial Analysis')
-print('---------------------------------------------------')
-print(f'Total months: {months_count}')
-print(f'Total: ${total_amount}')
-print(f'Average Change: ${avg_change:.2f}')
-print(f'Greatest Increase in Profits: {great_increase["date"]} (${great_increase["amount"]})')
-print(f'Greatest Decrease in Profits: {great_decrease["date"]} (${great_decrease["amount"]})')
+# Save results to a List
+results_report = []  # Initialise list to save report data
+results_report.append('Financial Analysis') # Header
+results_report.append('---------------------------------------------------')
+results_report.append(f'Total months: {months_count}')
+results_report.append(f'Total: ${total_amount}')
+results_report.append(f'Average Change: ${avg_change:.2f}')
+results_report.append(f'Greatest Increase in Profits: {great_increase["date"]} (${great_increase["amount"]})')
+results_report.append(f'Greatest Decrease in Profits: {great_decrease["date"]} (${great_decrease["amount"]})')
 
-# Generate and export report
+# Generate report and print the metrics
 output_path = Path('output.txt')  # Set the output file path
 
 # Open the output_path as a file object in "write" mode ('w')
 with open(output_path, 'w') as file:
-    # Write a header
-    file.write('Financial Analysis\n')
-    file.write('---------------------------------------------------\n')
-    # write the content
-    file.write(f'Total months: {months_count}\n')
-    file.write(f'Total: ${total_amount}\n')
-    file.write(f'Average Change: ${avg_change:.2f}\n')
-    file.write(f'Greatest Increase in Profits: {great_increase["date"]} (${great_increase["amount"]})\n')
-    file.write(f'Greatest Decrease in Profits: {great_decrease["date"]} (${great_decrease["amount"]})\n')
+    for record in results_report:
+        print(record)
+        functions.write_to_file(file, record)
