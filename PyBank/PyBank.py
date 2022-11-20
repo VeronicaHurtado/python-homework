@@ -3,7 +3,7 @@ from pathlib import Path
 import csv
 
 # Set the file path
-csv_path = Path('Resources/budget_data.csv')
+csv_path = Path('./Resources/budget_data.csv')
 
 # Initialise variables
 months_count = 0  # The total number of months included in the dataset
@@ -34,21 +34,21 @@ for date, pnl in budget_data.items():
     months_count += 1  # Add up 1 to the months count
     total_amount += pnl  # Sum up the pnl to the total_amount
 
-    # Logic to determine the Greatest Increase and Greatest Decrease
-    if great_decrease['amount'] == 0:
-        great_decrease['amount'] = pnl
-        great_decrease['date'] = date
-    elif pnl < great_decrease['amount']:
-        great_decrease['amount'] = pnl
-        great_decrease['date'] = date
-    elif pnl > great_increase['amount']:
-        great_increase['amount'] = pnl
-        great_increase['date'] = date
-
     # Logic to calculate the Monthly Change (prev vs current)
     if previous_month_pnl != 0:  # Skip the first iteration as there is nothing to compare to
         monthly_change = pnl - previous_month_pnl
         historical_change.append(monthly_change)
+
+        # Logic to determine the Greatest Increase and Greatest Decrease
+        if great_decrease['amount'] == 0:
+            great_decrease['amount'] = monthly_change
+            great_decrease['date'] = date
+        elif monthly_change < great_decrease['amount']:
+            great_decrease['amount'] = monthly_change
+            great_decrease['date'] = date
+        elif monthly_change > great_increase['amount']:
+            great_increase['amount'] = monthly_change
+            great_increase['date'] = date
 
     # Update previous_month_pnl after Monthly Change calculation
     previous_month_pnl = pnl
@@ -62,8 +62,8 @@ print('---------------------------------------------------')
 print(f'Total months: {months_count}')
 print(f'Total: ${total_amount}')
 print(f'Average Change: ${avg_change:.2f}')
-print(f'Greatest Increase in Profits: {great_increase["date"]} (${great_increase["amount"]})')  # ToDo: Double check
-print(f'Greatest Decrease in Profits: {great_decrease["date"]} (${great_decrease["amount"]})')  # ToDo: Double check
+print(f'Greatest Increase in Profits: {great_increase["date"]} (${great_increase["amount"]})')
+print(f'Greatest Decrease in Profits: {great_decrease["date"]} (${great_decrease["amount"]})')
 
 # Generate and export report
 output_path = Path('output.txt')  # Set the output file path
